@@ -14,26 +14,33 @@ const New = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const updateNews = async () => {
-    props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
-    setloading(true);
-    let data = await fetch(url);
-    props.setProgress(40);
-
-    let parsedData = await data.json();
-
-    props.setProgress(70);
-    setarticles(parsedData.articles || []);
-    settotalResults(parsedData.totalResults || 0);
-    setloading(false);
-
-    props.setProgress(100);
-  };
   useEffect(() => {
+    const updateNews = async () => {
+      props.setProgress(10);
+      let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
+      setloading(true);
+      let data = await fetch(url);
+      props.setProgress(40);
+
+      let parsedData = await data.json();
+
+      props.setProgress(70);
+      setarticles(parsedData.articles || []);
+      settotalResults(parsedData.totalResults || 0);
+      setloading(false);
+
+      props.setProgress(100);
+    };
     document.title = `${capitalizedString(props.category)} - PingPress`;
     updateNews();
-  }, [props.category, updateNews]);
+  }, [
+    props.category,
+    props.country,
+    props.apiKey,
+    props.pagesize,
+    page,
+    props.setProgress,
+  ]);
 
   //   const handlePrevClick = async () => {
   //     setpage(page - 1);
