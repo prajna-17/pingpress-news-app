@@ -33,7 +33,7 @@ const New = (props) => {
   useEffect(() => {
     document.title = `${capitalizedString(props.category)} - PingPress`;
     updateNews();
-  }, []);
+  }, [props.category, updateNews]);
 
   //   const handlePrevClick = async () => {
   //     setpage(page - 1);
